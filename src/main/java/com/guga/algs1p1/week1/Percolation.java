@@ -4,10 +4,11 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
+    private static final byte OPEN = 1;
+    //private WeightedQuickUnionUF uf2;
+    private static final byte FULL = 2;
     private WeightedQuickUnionUF uf1;
-    private WeightedQuickUnionUF uf2;
-
-    private boolean[] records;
+    private byte[] control;
     private int N;
     private int top; //virtual top node
     private int bottom; //virtual bottom node
@@ -17,10 +18,11 @@ public class Percolation {
         this.N = N;
         if (N <= 0) throw new IllegalArgumentException();
         uf1 = new WeightedQuickUnionUF(N * N + 2);
-        uf2 = new WeightedQuickUnionUF(N * N + 1);
-        records = new boolean[N * N];
-        top = N * N;
+        //uf2 = new WeightedQuickUnionUF(N * N + 1);
+        control = new byte[N * N + 2];
+        top = 0;
         bottom = N * N + 1;
+        control[top] = FULL;
     }
 
 
@@ -37,15 +39,16 @@ public class Percolation {
 
         int pos = calculatePosition(i, j);
 
-        if (records[pos]) return;
+        if (control[pos] >= OPEN) return;
 
-        records[pos] = true;
-        if (pos < N) {
+        control[pos] = OPEN;
+        if (pos > 0 && pos <= N) {
             uf1.union(top, pos);
-            uf2.union(top, pos);
+            control[pos] = FULL;
+            flagFulls(i, j, pos);
             //System.out.println("uniendo " + top + " y " + pos);
         }
-        if (pos >= N * (N - 1)) {
+        if (pos > N * (N - 1)) {
             uf1.union(pos, bottom);
             //System.out.println("uniendo* " + bottom + " y " + pos);
         }
@@ -58,9 +61,12 @@ public class Percolation {
 
             next = pos - N;
 
-            if (records[next]) {
+            if (control[next] >= OPEN) {
                 uf1.union(pos, next);
-                uf2.union(pos, next);
+                if (control[next] == FULL) {
+                    control[pos] = FULL;
+                }
+                //uf2.union(pos, next);
                 //System.out.println("* " + pos + " y " + next);
             }
 
@@ -74,10 +80,13 @@ public class Percolation {
 
             next = pos + N;
 
-            if (records[next]) {
+            if (control[next] >= OPEN) {
 
                 uf1.union(pos, next);
-                uf2.union(pos, next);
+                if (control[next] == FULL) {
+                    control[pos] = FULL;
+                }
+                //uf2.union(pos, next);
                 //System.out.println("* " + pos + " y " + next);
             }
         }
@@ -90,10 +99,13 @@ public class Percolation {
 
             next = pos - 1;
 
-            if (records[next]) {
+            if (control[next] >= OPEN) {
 
                 uf1.union(pos, next);
-                uf2.union(pos, next);
+                if (control[next] == FULL) {
+                    control[pos] = FULL;
+                }
+                //uf2.union(pos, next);
                 //System.out.println("* " + pos + " y " + next);
             }
 
@@ -107,12 +119,60 @@ public class Percolation {
 
             next = pos + 1;
 
-            if (records[next]) {
+            if (control[next] >= OPEN) {
                 uf1.union(pos, next);
-                uf2.union(pos, next);
+                if (control[next] == FULL) {
+                    control[pos] = FULL;
+                }
+                //uf2.union(pos, next);
                 //System.out.println("* " + pos + " y " + next);
             }
 
+        }
+
+        if (control[pos] == FULL) {
+            flagFulls(i, j, pos);
+        }
+
+    }
+
+    private void flagFulls(int i, int j, int pos) {
+        int next = 0;
+
+        /*arriba*/
+        if (i > 1) {
+            next = pos - N;
+            if (control[next] == OPEN) {
+                control[next] = FULL;
+                flagFulls(i - 1, j, next);
+            }
+        }
+
+        /*abajo*/
+        if (i < N) {
+            next = pos + N;
+            if (control[next] == OPEN) {
+                control[next] = FULL;
+                flagFulls(i + 1, j, next);
+            }
+        }
+
+        /*izquierda*/
+        if (j > 1) {
+            next = pos - 1;
+            if (control[next] == OPEN) {
+                control[next] = FULL;
+                flagFulls(i, j - 1, next);
+            }
+        }
+
+        /*derecha*/
+        if (j < N) {
+            next = pos + 1;
+            if (control[next] == OPEN) {
+                control[next] = FULL;
+                flagFulls(i, j + 1, next);
+            }
         }
 
     }
@@ -122,20 +182,21 @@ public class Percolation {
 
         validateRange(i, j);
 
-        return records[calculatePosition(i, j)];
+        return control[calculatePosition(i, j)] >= OPEN;
 
     }
 
-    public boolean isFull(int i, int j) {// is site (row i, column j) full?
+    public boolean isFull(int i, int j) { // is site (row i, column j) full?
         if (!isOpen(i, j)) return false;
         int pos = calculatePosition(i, j);
-        return uf2.connected(top, pos);
+        //return uf2.connected(top, pos);
+        return control[pos] == FULL;
     }
 
 
     public boolean percolates() { // does the system percolate?
 
-        if (N == 1) return records[0];
+        if (N == 1) return control[1] >= OPEN;
         return uf1.connected(top, bottom);
 
     }
@@ -152,7 +213,7 @@ public class Percolation {
 
     private int calculatePosition(int i, int j) {
 
-        return (N) * (i - 1) + j - 1;
+        return (N) * (i - 1) + j;
 
     }
 

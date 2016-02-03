@@ -11,7 +11,7 @@ public class PercolationStats {
     private int T;
 
     public PercolationStats(int N, int T) { // perform T independent experiments on an N-by-N grid
-        this.T=T;
+        this.T = T;
         if (N <= 0 || T <= 0) throw new IllegalArgumentException();
         results = new double[T];
         for (int i = 0; i < T; i++) {
@@ -31,7 +31,7 @@ public class PercolationStats {
         std = StdStats.stddev(results);
     }
 
-    public static void main(String[] args) {// test client (described below)
+    public static void main(String[] args) { // test client (described below)
         PercolationStats s = new PercolationStats(2, 100000);
         System.out.println(s.mean());
         System.out.println(s.stddev());
@@ -51,7 +51,7 @@ public class PercolationStats {
         return mean - (std * 1.96 / Math.sqrt(T));
     }
 
-    public double confidenceHi() {// high endpoint of 95% confidence interval
+    public double confidenceHi() { // high endpoint of 95% confidence interval
         return mean + (std * 1.96 / Math.sqrt(T));
     }
 }
