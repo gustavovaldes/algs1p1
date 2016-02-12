@@ -2,6 +2,10 @@ package com.guga.algs1p1.week1;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
+/**
+ * created by guga
+ * part 1 assignment week1
+ */
 public class Percolation {
 
     private static final byte OPEN = 1;

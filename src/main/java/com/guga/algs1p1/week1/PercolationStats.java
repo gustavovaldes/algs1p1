@@ -3,6 +3,10 @@ package com.guga.algs1p1.week1;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
+/**
+ * Created by guga
+ * part 2 assignment week2
+ */
 public class PercolationStats {
 
     private double[] results;

@@ -7,13 +7,7 @@ package com.guga.algs1p1.week1;
  */
 public class ThreeSum {
 
-    int[] array;
-
-    public ThreeSum(int[] values) {
-        this.array = values;
-    }
-
-    public int count() {
+    public static int count(int[] array) {
         int result = 0;
         int n = array.length;
         for (int i = 0; i < n; i++) {
@@ -28,8 +22,5 @@ public class ThreeSum {
         }
         return result;
     }
-
-
-
 }
 
