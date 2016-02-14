@@ -2,8 +2,12 @@ package com.guga.algs1p1.week2;
 
 /**
  * Created by guga
- * <p>
- * Selection Sort  N^2/2   always.  Is not a good option.
+ *
+ * Selection sort uses N ^ 2 / 2 compares and N exchanges to sort an
+ * array of length N.
+ *
+ * Running time is insensitive to the input.
+ * It seems to be a bad option for any condition.
  */
 public class SelectionSort {
 

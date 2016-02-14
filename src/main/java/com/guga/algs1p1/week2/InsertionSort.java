@@ -2,6 +2,14 @@ package com.guga.algs1p1.week2;
 
 /**
  * Created by guga
+ *
+ * Insertion sort uses N ^ 2 / 4 compares and N ^2 / 4 exchanges to sort
+ * a randomly ordered array of length N with distinct keys, on the average. The worst
+ * case is N ^2 / 2 compares and N ^ 2 / 2 exchanges and the best case is N - 1 compares
+ * and 0 exchanges.
+ *
+ * It can be a suitable option if the array is already sorted or mostly sorted, if most of the values are equals ,
+ * or for tiny arrays too.
  */
 public class InsertionSort {
 
