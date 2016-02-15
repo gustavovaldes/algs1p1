@@ -8,8 +8,10 @@ package com.guga.algs1p1.week2;
  * case is N ^2 / 2 compares and N ^ 2 / 2 exchanges and the best case is N - 1 compares
  * and 0 exchanges.
  *
- * It can be a suitable option if the array is already sorted or mostly sorted, if most of the values are equals ,
+ * It can be a suitable option if the array is already sorted, partially sorted, or if most of the values are equals ,
  * or for tiny arrays too.
+ *
+ * For partially sorted arrays, insertion sort runs in linear time.
  */
 public class InsertionSort {
 
