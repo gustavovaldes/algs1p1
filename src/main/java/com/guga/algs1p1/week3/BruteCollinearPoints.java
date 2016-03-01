@@ -1,8 +1,6 @@
 package com.guga.algs1p1.week3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by guga
@@ -19,6 +17,7 @@ public class BruteCollinearPoints {
             for (int j = i + 1; j < points.length - 2; j++) {
                 for (int k = j + 1; k < points.length - 1; k++) {
                     double s = points[i].slopeTo(points[j]);
+                    if(s == Double.NEGATIVE_INFINITY) throw  new IllegalArgumentException();//duplicated point
                     if (s == points[i].slopeTo(points[k])) {
                         for (int l = k + 1; l < points.length; l++) {
                             if (s == points[i].slopeTo(points[l])) {
@@ -44,6 +43,8 @@ public class BruteCollinearPoints {
     }
 
     public LineSegment[] segments() {   // the line segments
-        return (LineSegment[]) lineSegments.toArray();
+        LineSegment[] result = new LineSegment[lineSegments.size()];
+        lineSegments.toArray(result);
+        return result;
     }
 }

@@ -18,10 +18,18 @@ public class PointTest {
         Point p3 = new Point(1, 2);
         Point p4 = new Point(2, 1);
         Assert.assertEquals(1d, p1.slopeTo(p2), 0d);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, p2.slopeTo(p3), 0d);
-        Assert.assertEquals(0d, p2.slopeTo(p4), 0d);
+        Assert.assertEquals(0d, p2.slopeTo(p3), 0d);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, p2.slopeTo(p4), 0d);
         Assert.assertEquals(-1d, p3.slopeTo(p4), 0d);
         Assert.assertEquals(Double.NEGATIVE_INFINITY, p4.slopeTo(p4), 0d);
+
+        Point p             = new Point(251, 60);
+        Point q             = new Point(251, 443);
+        System.out.println(p.slopeTo(q));
+
+        Point r             = new Point(0, 6);
+        Point s             = new Point(0, 8);
+        System.out.println(r.slopeTo(s));
     }
 
 
@@ -40,6 +48,8 @@ public class PointTest {
         Assert.assertEquals(0, p1.compareTo(p5)); //0
         Assert.assertEquals(0, p2.compareTo(p2)); //0
         Assert.assertEquals(-1, p2.compareTo(p1)); //-1
+
+
 
 
     }
