@@ -26,18 +26,21 @@ public class FastCollinearPoints {
             for (int j = 1; j <= n; j++) {
                 if(j==n){
                     if(counter>=3){//collinear
-                        lineSegments.add(extractSegment(Arrays.copyOfRange(points, j - counter, j))); // ( ] (inclusive,exclusive range)
+                        Point[] segment = Arrays.copyOfRange(points, j - counter -1 , j);// -1: 1 additional place for original point
+                        //segment[j - counter -1]=point;//include the original
+                        lineSegments.add(extractSegment(segment)); // ( ] (inclusive,exclusive range)
                     }
                     break;
                 }
                 double tempSlope = point.slopeTo(points[j]);
                 if(slope==Double.POSITIVE_INFINITY) continue; //same point
-                if(slope==tempSlope){//same point, border condition
+                if(slope==tempSlope ){//same point, border condition// maybe include here -tempSlope
                     counter++;
                 }else{
-                    if(counter>=3){//collinear  3 + samepoint =4; include in range
-                        //todo include point if missing
-                        lineSegments.add(extractSegment(Arrays.copyOfRange(points, j - counter, j))); // ( ] (inclusive,exclusive range)
+                    if(counter>=3){//collinear
+                        Point[] segment = Arrays.copyOfRange(points, j - counter -1 , j);// -1: 1 additional place for original point
+                        segment[0]=point;//include the original
+                        lineSegments.add(extractSegment(segment)); // ( ] (inclusive,exclusive range)
                     }
                     counter=1;
                 }

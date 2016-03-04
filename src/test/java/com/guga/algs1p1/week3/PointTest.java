@@ -70,4 +70,20 @@ public class PointTest {
             values[i].draw();
         }
     }
+
+    @Test
+    public void testLine(){
+        Point p1 = new Point(1,1);
+        Point p2 = new Point(2,2);
+        Point p3 = new Point(3,3);
+        Point p4 = new Point(4,4);
+
+        System.out.println(p1.slopeTo(p2));
+        System.out.println(p1.slopeTo(p3));
+        System.out.println(p2.slopeTo(p1));
+        System.out.println(p3.slopeTo(p2));
+        System.out.println(p4.slopeTo(p1));
+        System.out.println(p1.slopeTo(p4));
+
+    }
 }
