@@ -11,47 +11,54 @@ public class FastCollinearPoints {
 
     private List<LineSegment> lineSegments;
 
-    public FastCollinearPoints(Point[] points) {// finds all line segments containing 4 or more points
+    public FastCollinearPoints(Point[] input) {// finds all line segments containing 4 or more points
         lineSegments = new ArrayList<>();
-        int n = points.length;
+        int n = input.length;
 
-        Point[] original = Arrays.copyOf(points, n);
+        Point[] sorted = Arrays.copyOf(input, n);
 
-        if (original == null) throw new NullPointerException();
+        if (input == null) throw new NullPointerException();
         for (int i = 0; i < n; i++) {
-            Point point = original[i];
-            Arrays.sort(points, points[i].slopeOrder());
+            Point point = input[i];
+            Arrays.sort(sorted, point.slopeOrder());
             int counter = 1;
-            double slope = point.slopeTo(points[0]);
+            double slope = point.slopeTo(sorted[0]);
             for (int j = 1; j <= n; j++) {
-                if(j==n){
-                    if(counter>=3){//collinear
-                        Point[] segment = Arrays.copyOfRange(points, j - counter -1 , j);// -1: 1 additional place for original point
-                        //segment[j - counter -1]=point;//include the original
-                        lineSegments.add(extractSegment(segment)); // ( ] (inclusive,exclusive range)
+                if (j == n) {
+                    if (counter >= 3) {//collinear
+                        Point[] segment = Arrays.copyOfRange(sorted, j - counter - 1, j);// -1: 1 additional place
+                        // for original point
+                        segment[0] = point;//include the original
+                        extractSegment(segment); // ( ] (inclusive,exclusive range)
                     }
                     break;
                 }
-                double tempSlope = point.slopeTo(points[j]);
-                if(slope==Double.POSITIVE_INFINITY) continue; //same point
-                if(slope==tempSlope ){//same point, border condition// maybe include here -tempSlope
+                double tempSlope = point.slopeTo(sorted[j]);
+                if(tempSlope==Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
+                //if(tempSlope==Double.NEGATIVE_INFINITY) continue; //same point
+                if (slope == tempSlope) {//same point, border condition// maybe include here -tempSlope
                     counter++;
-                }else{
-                    if(counter>=3){//collinear
-                        Point[] segment = Arrays.copyOfRange(points, j - counter -1 , j);// -1: 1 additional place for original point
-                        segment[0]=point;//include the original
-                        lineSegments.add(extractSegment(segment)); // ( ] (inclusive,exclusive range)
+                } else {
+                    if (counter >= 3) {//collinear
+                        Point[] segment = Arrays.copyOfRange(sorted, j - counter - 1, j);// -1: 1 additional place
+                        // for original point
+                        segment[0] = point;//include the original
+                        extractSegment(segment); // ( ] (inclusive,exclusive range)
                     }
-                    counter=1;
+                    counter = 1;
                 }
                 slope = tempSlope;
             }
         }
     }
 
-    private LineSegment extractSegment(Point ... points) {
+    private void extractSegment(Point... points) {
         Arrays.sort(points);
-        return new LineSegment(points[0], points[points.length-1]);
+        LineSegment segment = new LineSegment(points[0], points[points.length - 1]);
+        for (LineSegment lineSegment : lineSegments) {
+            if (lineSegment.toString().equals(segment.toString())) return;
+        }
+        lineSegments.add(segment);
     }
 
     public int numberOfSegments() { // the number of line segments

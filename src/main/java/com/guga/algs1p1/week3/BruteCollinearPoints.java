@@ -1,9 +1,8 @@
 package com.guga.algs1p1.week3;
 
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdDraw;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by guga
@@ -14,13 +13,13 @@ public class BruteCollinearPoints {
     private List<LineSegment> lineSegments;
 
     public BruteCollinearPoints(Point[] points) {  // finds all line segments containing 4 points
+        checkDuplicated(points);
         lineSegments = new ArrayList<>();
         if (points == null) throw new NullPointerException();
         for (int i = 0; i < points.length - 3; i++) {
             for (int j = i + 1; j < points.length - 2; j++) {
                 for (int k = j + 1; k < points.length - 1; k++) {
                     double s = points[i].slopeTo(points[j]);
-                    if(s == Double.NEGATIVE_INFINITY) throw  new IllegalArgumentException();//duplicated point
                     if (s == points[i].slopeTo(points[k])) {
                         for (int l = k + 1; l < points.length; l++) {
                             if (s == points[i].slopeTo(points[l])) {
@@ -31,6 +30,14 @@ public class BruteCollinearPoints {
                     }
                 }
             }
+        }
+    }
+
+    private void checkDuplicated(Point[] points){
+        Point p = points[0];
+        Arrays.sort(points, p.slopeOrder());
+        for (int i = 1; i< points.length; i++){
+            if(p.slopeTo(points[i])==Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
         }
     }
 

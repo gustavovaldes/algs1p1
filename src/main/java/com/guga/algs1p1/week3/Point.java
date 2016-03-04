@@ -4,14 +4,16 @@ import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Comparator;
 
-/******************************************************************************
+/**
+ * ***************************************************************************
  * Compilation:  javac Point.java
  * Execution:    java Point
  * Dependencies: none
  * <p>
  * An immutable data type for points in the plane.
  * For use on Coursera, Algorithms Part I programming assignment.
- ******************************************************************************/
+ * ****************************************************************************
+ */
 
 public class Point implements Comparable<Point> {
 
@@ -28,6 +30,13 @@ public class Point implements Comparable<Point> {
         /* DO NOT MODIFY */
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Unit tests the Point data type.
+     */
+    public static void main(String[] args) {
+        /* YOUR CODE HERE */
     }
 
     /**
@@ -64,7 +73,7 @@ public class Point implements Comparable<Point> {
         if (that.x == this.x && that.y == this.y) return Double.NEGATIVE_INFINITY;
         if (that.y == this.y) return 0.0d;
         if (that.x == this.x) return Double.POSITIVE_INFINITY;
-        return (that.y - this.y) / (double) (that.x - this.x);
+        return (double) (that.y - this.y) / (double) (that.x - this.x);
     }
 
     /**
@@ -102,11 +111,10 @@ public class Point implements Comparable<Point> {
             public int compare(Point o1, Point o2) {
                 double s1 = slopeTo(o1);
                 double s2 = slopeTo(o2);
-                return Double.compare(s1,s2);
+                return Double.compare(s1, s2);
             }
         };
     }
-
 
     /**
      * Returns a string representation of this point.
@@ -118,12 +126,5 @@ public class Point implements Comparable<Point> {
     public String toString() {
         /* DO NOT MODIFY */
         return "(" + x + ", " + y + ")";
-    }
-
-    /**
-     * Unit tests the Point data type.
-     */
-    public static void main(String[] args) {
-        /* YOUR CODE HERE */
     }
 }

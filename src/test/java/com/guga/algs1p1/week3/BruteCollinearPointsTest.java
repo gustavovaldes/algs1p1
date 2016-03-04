@@ -14,7 +14,7 @@ public class BruteCollinearPointsTest {
     public  void test() {
 
         // read the N points from a file
-        In in = new In("/week3/input400.txt");
+        In in = new In("/week3/input6.txt");
         int N = in.readInt();
         Point[] points = new Point[N];
         for (int i = 0; i < N; i++) {

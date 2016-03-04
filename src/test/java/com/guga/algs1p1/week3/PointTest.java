@@ -85,5 +85,15 @@ public class PointTest {
         System.out.println(p4.slopeTo(p1));
         System.out.println(p1.slopeTo(p4));
 
+        System.out.println("___");
+        Point p11 = new Point(4000, 30000);
+        Point p22 = new Point(3500, 28000);
+        Point p33 = new Point(3000, 26000);
+
+        System.out.println(p11.slopeTo(p22));
+        System.out.println(p22.slopeTo(p11));
+        System.out.println(p22.slopeTo(p33));
+        System.out.println(p22.slopeTo(p22));
+
     }
 }

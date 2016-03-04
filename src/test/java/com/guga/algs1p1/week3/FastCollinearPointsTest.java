@@ -14,7 +14,7 @@ public class FastCollinearPointsTest {
     public  void test() {
 
         // read the N points from a file
-        In in = new In("/week3/input9.txt");
+        In in = new In("/week3/input10.txt");
         int N = in.readInt();
         Point[] points = new Point[N];
         for (int i = 0; i < N; i++) {
