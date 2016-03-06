@@ -13,7 +13,7 @@ public class BruteCollinearPoints {
     private List<LineSegment> lineSegments;
 
     public BruteCollinearPoints(Point[] points) {  // finds all line segments containing 4 points
-        checkDuplicated(points);
+        checkDuplicated(points.clone());
         lineSegments = new ArrayList<>();
         if (points == null) throw new NullPointerException();
         for (int i = 0; i < points.length - 3; i++) {
@@ -34,10 +34,11 @@ public class BruteCollinearPoints {
     }
 
     private void checkDuplicated(Point[] points){
-        Point p = points[0];
-        Arrays.sort(points, p.slopeOrder());
-        for (int i = 1; i< points.length; i++){
-            if(p.slopeTo(points[i])==Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
+        Point[] orig = points.clone();
+        for (int i = 0; i< points.length; i++){
+            Point p = orig[i];
+            Arrays.sort(points, p.slopeOrder());
+            if(points.length>1 && p.slopeTo(points[1])==Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
         }
     }
 
