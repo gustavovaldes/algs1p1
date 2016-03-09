@@ -6,6 +6,8 @@ import edu.princeton.cs.algs4.StdOut;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Calendar;
+
 /**
  * Created by guga
  */
@@ -90,6 +92,20 @@ public class FastCollinearPointsTest {
     }
 
     @Test
+    public void test10000() {
+        Point[] points = readPoints("/week3/input2000.txt");
+        long t1 = Calendar.getInstance().getTimeInMillis();
+        LineSegment[] segments = new FastCollinearPoints(points).segments();
+        /*for (LineSegment segment : segments) {
+            System.out.println(segment);
+        }*/
+        long t2 = Calendar.getInstance().getTimeInMillis();
+        System.out.println("TIME:" + (t2-t1)/1000d + " [s]");
+
+
+    }
+
+    @Test
     public void test() {
 
         // read the N points from a file
@@ -112,12 +128,14 @@ public class FastCollinearPointsTest {
         StdDraw.show();
 
         // print and draw the line segments
+        long t1 = Calendar.getInstance().getTimeInMillis();
         FastCollinearPoints collinear = new FastCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();
         }
-        StdDraw.show();
-        System.out.println();
+        long t2 = Calendar.getInstance().getTimeInMillis();
+        System.out.println("TIME:" + (t2-t1)/1000d + " [s]");
+
     }
 }

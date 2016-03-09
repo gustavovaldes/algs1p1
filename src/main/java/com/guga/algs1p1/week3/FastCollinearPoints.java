@@ -1,8 +1,6 @@
 package com.guga.algs1p1.week3;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by guga
@@ -11,6 +9,7 @@ public class FastCollinearPoints {
 
     private List<LineSegment> lineSegments;
     private List<Point> selectedPoints = new ArrayList<>();
+    private Map<Double, List<Point>> map = new HashMap<>();
 
     public FastCollinearPoints(Point[] input) {// finds all line segments containing 4 or more points
         lineSegments = new ArrayList<>();
@@ -40,7 +39,7 @@ public class FastCollinearPoints {
                         //Point[] segment = Arrays.copyOfRange(sorted, j - counter - 1, j);// -1: 1 additional place
                         // for original point
                         //segment[0] = point;//include the original
-                        extractSegment(min, max); // ( ] (inclusive,exclusive range)
+                        extractSegment(min, max, slope); // ( ] (inclusive,exclusive range)
                     }
                     break;
                 }
@@ -57,7 +56,7 @@ public class FastCollinearPoints {
                         //Point[] segment = Arrays.copyOfRange(sorted, j - counter - 1, j);// -1: 1 additional place
                         // for original point
                         //segment[0] = point;//include the original
-                        extractSegment(min, max); // ( ] (inclusive,exclusive range)
+                        extractSegment(min, max, slope); // ( ] (inclusive,exclusive range)
                     }
                     counter = 1;
                     if(slope== point.slopeTo(sorted[j-1])) counter++;
@@ -87,6 +86,20 @@ public class FastCollinearPoints {
         selectedPoints.add(p1);
         selectedPoints.add(p2);
         lineSegments.add(new LineSegment(p1, p2));
+    }
+
+    private void extractSegment(Point p1, Point p2, double slope) {
+        List<Point> l = new ArrayList<>();
+        if (map.containsKey(slope)) {
+            l = map.get(slope);
+            for (Point p : l) {
+                if (p.compareTo(p1) == 0) return;
+            }
+        }
+        l.add(p1);
+        map.put(slope, l);
+        lineSegments.add(new LineSegment(p1, p2));
+
     }
 
 
