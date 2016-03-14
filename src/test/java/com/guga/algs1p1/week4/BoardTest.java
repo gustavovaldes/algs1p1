@@ -3,6 +3,8 @@ package com.guga.algs1p1.week4;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 /**
  * Created by gvaldes
  */
@@ -68,5 +70,29 @@ public class BoardTest {
         Board twin2 = board2.twin();
         Board expectedBoard2 = new Board(expected2);
         Assert.assertTrue(expectedBoard2.equals(twin2));
+    }
+
+
+    @Test
+    public void testNeighbors(){
+        int[][] values = new int[][]{{1, 2, 3}, {4, 0, 6}, {7, 8, 5}};
+
+        int[][] up = new int[][]{{1, 0, 3}, {4, 2, 6}, {7, 8, 5}};
+        int[][] bottom = new int[][]{{1, 2, 3}, {4, 8, 6}, {7, 0, 5}};
+        int[][] left = new int[][]{{1, 2, 3}, {0, 4, 6}, {7, 8, 5}};
+        int[][] rigth = new int[][]{{1, 2, 3}, {4, 6, 0}, {7, 8, 5}};
+
+
+        Board b = new Board(values);
+
+        System.out.println(b);
+        System.out.println("**********");
+        Iterable<Board> it = b.neighbors();
+        Iterator<Board> iter = it.iterator();
+        Assert.assertTrue(new Board(up).equals(iter.next()));
+        Assert.assertTrue(new Board(bottom).equals(iter.next()));
+        Assert.assertTrue(new Board(left).equals(iter.next()));
+        Assert.assertTrue(new Board(rigth).equals(iter.next()));
+        Assert.assertFalse(iter.hasNext());
     }
 }
