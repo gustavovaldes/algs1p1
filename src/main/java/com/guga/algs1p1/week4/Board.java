@@ -36,7 +36,7 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (board[i][j] != 0 && board[i][j] != x % max) {
-                    count = count + distanceToRightPosition(i, j, x);
+                    count = count + distanceToRightPosition(i, j, board[i][j]);
                 }
                 x++;
             }
@@ -45,10 +45,9 @@ public class Board {
     }
 
     private int distanceToRightPosition(int i, int j, int value) {
-        int base = value - (i * board.length + j + 1);
-        int horizontal = Math.abs(base & board.length);
-        int vertical = Math.abs(base / board.length);
-        return horizontal + vertical;
+        int iVal = (value - 1) / board.length;
+        int jVal = (value - 1) % board.length;
+        return Math.abs(i - iVal) + Math.abs(j - jVal);
     }
 
     public boolean isGoal() { // is this board the goal board?
@@ -63,11 +62,34 @@ public class Board {
     }
 
     public Board twin() { // a board that is obtained by exchanging any pair of blocks
-        return null;
+
+        int[][] b = new int[board.length][board.length];
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                b[i][j] = board[i][j];
+            }
+        }
+
+        if (board[0][0] == 0 || board[0][1] == 0) {
+            b[1][0] = board[1][1];
+            b[1][1] = board[1][0];
+        } else {
+            b[0][0] = board[0][1];
+            b[0][1] = board[0][0];
+        }
+        return new Board(b);
     }
 
     public boolean equals(Object y) { // does this board equal y?
-        return false;
+        Board that = (Board) y;
+        if (that.dimension() != this.dimension()) return false;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (that.board[i][j] != this.board[i][j]) return false;
+            }
+        }
+        return true;
     }
 
     public Iterable<Board> neighbors() {  // all neighboring boards
@@ -75,6 +97,14 @@ public class Board {
     }
 
     public String toString() { // string representation of this board (in the output format specified below)
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                sb.append(board[i][j]);
+                sb.append(" ");
+            }
+            sb.append(System.getProperty("line.separator"));
+        }
+        return sb.toString();
     }
 }
