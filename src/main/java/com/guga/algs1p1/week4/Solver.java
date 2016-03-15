@@ -1,4 +1,4 @@
-//package com.guga.algs1p1.week4;
+package com.guga.algs1p1.week4;
 
 import edu.princeton.cs.algs4.MinPQ;
 
@@ -25,32 +25,35 @@ public class Solver {
 
         while (!solvable) {
             SearchNode sn = pq.delMin();
-            moves++;
             if (!sn.board.isGoal()) {
                 Iterable<Board> i = sn.board.neighbors();
                 for (Board board : i) {
                     if (!board.equals(sn.board)) {
-                        pq.insert(new SearchNode(board, moves, sn));
+                        pq.insert(new SearchNode(board, sn.moves+1, sn));
                     }
                 }
 
             } else {
                 solvable = true;
                 solution = sn;
+                moves = sn.moves;
+                return;
             }
+
 
             SearchNode snTwin = pqTwin.delMin();
             if (!snTwin.board.isGoal()) {
                 Iterable<Board> i = snTwin.board.neighbors();
                 for (Board board : i) {
                     if (!board.equals(snTwin.board)) {
-                        pq.insert(new SearchNode(board, moves, snTwin));
+                        pqTwin.insert(new SearchNode(board, sn.moves+1, snTwin));
                     }
                 }
             } else {
                 solvable = false;
                 return;
             }
+
 
         }
     }
@@ -70,7 +73,7 @@ public class Solver {
         if (!solvable) return null;
         SearchNode temp = solution;
         Stack<Board> stack = new Stack<>();
-        while(temp!=null){
+        while (temp != null) {
             stack.add(temp.board);
             temp = temp.previous;
         }
@@ -90,7 +93,7 @@ public class Solver {
 
         @Override
         public int compareTo(SearchNode o) {
-            return Integer.compare (this.board.manhattan() + this.moves,
+            return Integer.compare(this.board.manhattan() + this.moves,
                     o.board.manhattan() + o.moves);
         }
     }
