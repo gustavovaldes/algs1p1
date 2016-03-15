@@ -1,4 +1,4 @@
-//package com.guga.algs1p1.week4;
+package com.guga.algs1p1.week4;
 
 
 import edu.princeton.cs.algs4.Stack;
@@ -10,56 +10,51 @@ public class Board {
 
     private int N;
     private int[][] board;
-    private Board parent;
 
     public Board(int[][] blocks) { // construct a board from an N-by-N array of blocks
         // (where block s[i][j] = block in row i, column j)
-        board = blocks;
+        board = cloneBoard(blocks);
         N = board.length;
     }
 
     private void createNeighbors(int i, int j, Stack<Board> stack) {
 
         if (i > 0) { //up
-            int[][] up = cloneBoard();
+            int[][] up = cloneBoard(board);
             up[i][j] = board[i - 1][j];
             up[i - 1][j] = board[i][j];
             Board b = new Board(up);
-            b.parent = this;
             stack.push(b);
         }
-        if (i < N) { //bottom
-            int[][] down = cloneBoard();
+        if (i < N - 1) { //bottom
+            int[][] down = cloneBoard(board);
             down[i][j] = board[i + 1][j];
             down[i + 1][j] = board[i][j];
             Board b = new Board(down);
-            b.parent = this;
             stack.push(b);
         }
         if (j > 0) { //left
-            int[][] left = cloneBoard();
+            int[][] left = cloneBoard(board);
             left[i][j] = board[i][j - 1];
             left[i][j - 1] = board[i][j];
             Board b = new Board(left);
-            b.parent = this;
             stack.push(b);
         }
-        if (j < N) { //right
-            int[][] right = cloneBoard();
+        if (j < N - 1) { //right
+            int[][] right = cloneBoard(board);
             right[i][j] = board[i][j + 1];
             right[i][j + 1] = board[i][j];
             Board b = new Board(right);
-            b.parent = this;
             stack.push(b);
         }
 
     }
 
-    private int[][] cloneBoard() {
-        int[][] clonedBoard = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                clonedBoard[i][j] = board[i][j];
+    private int[][] cloneBoard(int[][] orig) {
+        int[][] clonedBoard = new int[orig.length][orig.length];
+        for (int i = 0; i < orig.length; i++) {
+            for (int j = 0; j < orig.length; j++) {
+                clonedBoard[i][j] = orig[i][j];
             }
         }
         return clonedBoard;
@@ -104,14 +99,7 @@ public class Board {
     }
 
     public boolean isGoal() { // is this board the goal board?
-        int x = 0;
-        int max = N * N;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (board[i][j] != ++x % max) return false;
-            }
-        }
-        return true;
+        return hamming() == 0;
     }
 
     public Board twin() { // a board that is obtained by exchanging any pair of blocks
@@ -135,6 +123,11 @@ public class Board {
     }
 
     public boolean equals(Object y) { // does this board equal y?
+
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+
         Board that = (Board) y;
         if (that.dimension() != this.dimension()) return false;
         for (int i = 0; i < N; i++) {
@@ -162,10 +155,12 @@ public class Board {
 
     public String toString() { // string representation of this board (in the output format specified below)
         StringBuilder sb = new StringBuilder();
+        sb.append(N);
+        sb.append(System.getProperty("line.separator"));
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                sb.append(board[i][j]);
                 sb.append(" ");
+                sb.append(board[i][j]);
             }
             sb.append(System.getProperty("line.separator"));
         }

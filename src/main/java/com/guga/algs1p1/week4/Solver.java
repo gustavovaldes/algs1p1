@@ -1,8 +1,8 @@
-//package com.guga.algs1p1.week4;
+package com.guga.algs1p1.week4;
 
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
 
-import java.util.Stack;
 
 /**
  * Created by gvaldes
@@ -23,34 +23,38 @@ public class Solver {
         pq.insert(node);
         pqTwin.insert(nodeTwin);
 
-        while (!solvable) {
+        while (true) {
             SearchNode sn = pq.delMin();
-            moves++;
             if (!sn.board.isGoal()) {
-                Iterable<Board> i = sn.board.neighbors();
-                for (Board board : i) {
-                    if (!board.equals(sn.board)) {
-                        pq.insert(new SearchNode(board, moves, sn));
+                for (Board board : sn.board.neighbors()) {
+                    SearchNode itNode = new SearchNode(board, sn.moves + 1, sn);
+                    if (!itNode.equals(sn.previous)) {
+                        pq.insert(itNode);
                     }
                 }
 
             } else {
                 solvable = true;
                 solution = sn;
+                moves = sn.moves;
+                return;
             }
+
 
             SearchNode snTwin = pqTwin.delMin();
             if (!snTwin.board.isGoal()) {
-                Iterable<Board> i = snTwin.board.neighbors();
-                for (Board board : i) {
-                    if (!board.equals(snTwin.board)) {
-                        pq.insert(new SearchNode(board, moves, snTwin));
+                for (Board board : snTwin.board.neighbors()) {
+                    SearchNode itNode = new SearchNode(board, snTwin.moves + 1, snTwin);
+                    if (!itNode.equals(snTwin.previous)) {
+                        pqTwin.insert(itNode);
                     }
                 }
             } else {
+                moves = -1;
                 solvable = false;
                 return;
             }
+
 
         }
     }
@@ -68,10 +72,10 @@ public class Solver {
 
     public Iterable<Board> solution() { // sequence of boards in a shortest solution; null if unsolvable
         if (!solvable) return null;
-        SearchNode temp = solution;
+        SearchNode temp = new SearchNode(solution.board, solution.moves, solution.previous);
         Stack<Board> stack = new Stack<>();
-        while(temp!=null){
-            stack.add(temp.board);
+        while (temp != null) {
+            stack.push(temp.board);
             temp = temp.previous;
         }
         return stack;
@@ -90,8 +94,25 @@ public class Solver {
 
         @Override
         public int compareTo(SearchNode o) {
-            return Integer.compare (this.board.manhattan() + this.moves,
+            return Integer.compare(this.board.manhattan() + this.moves,
                     o.board.manhattan() + o.moves);
+        }
+
+        public boolean equals(Object that) {
+            if (that == this) return true;
+            if (that == null) return false;
+            if (that.getClass() != this.getClass()) return false;
+
+            SearchNode node = (SearchNode) that;
+            if (node.board.equals(board)) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return board.toString().hashCode();
         }
     }
 }
