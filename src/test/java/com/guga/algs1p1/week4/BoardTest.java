@@ -74,7 +74,7 @@ public class BoardTest {
 
 
     @Test
-    public void testNeighbors(){
+    public void testNeighbors() {
         int[][] values = new int[][]{{1, 2, 3}, {4, 0, 6}, {7, 8, 5}};
 
         int[][] up = new int[][]{{1, 0, 3}, {4, 2, 6}, {7, 8, 5}};
@@ -92,6 +92,25 @@ public class BoardTest {
         Assert.assertTrue(new Board(up).equals(iter.next()));
         Assert.assertTrue(new Board(bottom).equals(iter.next()));
         Assert.assertTrue(new Board(left).equals(iter.next()));
+        Assert.assertTrue(new Board(rigth).equals(iter.next()));
+        Assert.assertFalse(iter.hasNext());
+    }
+
+    @Test
+    public void testNeighborsBorder() {
+        int[][] values = new int[][]{{0, 2, 3}, {4, 1, 6}, {7, 8, 5}};
+
+        int[][] bottom = new int[][]{{4, 2, 3}, {0, 1, 6}, {7, 8, 5}};
+        int[][] rigth = new int[][]{{2, 0, 3}, {4, 1, 6}, {7, 8, 5}};
+
+
+        Board b = new Board(values);
+
+        System.out.println(b);
+        System.out.println("**********");
+        Iterable<Board> it = b.neighbors();
+        Iterator<Board> iter = it.iterator();
+        Assert.assertTrue(new Board(bottom).equals(iter.next()));
         Assert.assertTrue(new Board(rigth).equals(iter.next()));
         Assert.assertFalse(iter.hasNext());
     }

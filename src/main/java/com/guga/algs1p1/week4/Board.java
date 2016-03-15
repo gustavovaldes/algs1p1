@@ -1,16 +1,16 @@
-package com.guga.algs1p1.week4;
+//package com.guga.algs1p1.week4;
 
-import edu.princeton.cs.algs4.MinPQ;
 
-import java.util.Stack;
+import edu.princeton.cs.algs4.Stack;
 
 /**
  * Created by gvaldes
  */
 public class Board {
 
-    int N;
+    private int N;
     private int[][] board;
+    private Board parent;
 
     public Board(int[][] blocks) { // construct a board from an N-by-N array of blocks
         // (where block s[i][j] = block in row i, column j)
@@ -18,31 +18,39 @@ public class Board {
         N = board.length;
     }
 
-    private void createNeighbors(int i, int j, Stack stack) {
+    private void createNeighbors(int i, int j, Stack<Board> stack) {
 
         if (i > 0) { //up
             int[][] up = cloneBoard();
             up[i][j] = board[i - 1][j];
             up[i - 1][j] = board[i][j];
-            stack.push(new Board(up));
+            Board b = new Board(up);
+            b.parent = this;
+            stack.push(b);
         }
         if (i < N) { //bottom
-            int[][] bottom = cloneBoard();
-            bottom[i][j] = board[i + 1][j];
-            bottom[i + 1][j] = board[i][j];
-            stack.push(new Board(bottom));
+            int[][] down = cloneBoard();
+            down[i][j] = board[i + 1][j];
+            down[i + 1][j] = board[i][j];
+            Board b = new Board(down);
+            b.parent = this;
+            stack.push(b);
         }
         if (j > 0) { //left
             int[][] left = cloneBoard();
             left[i][j] = board[i][j - 1];
             left[i][j - 1] = board[i][j];
-            stack.push(new Board(left));
+            Board b = new Board(left);
+            b.parent = this;
+            stack.push(b);
         }
         if (j < N) { //right
             int[][] right = cloneBoard();
             right[i][j] = board[i][j + 1];
             right[i][j + 1] = board[i][j];
-            stack.push(new Board(right));
+            Board b = new Board(right);
+            b.parent = this;
+            stack.push(b);
         }
 
     }
