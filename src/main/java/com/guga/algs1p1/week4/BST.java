@@ -13,7 +13,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public void put(Key key, Value value) {
-        put(root, key, value);
+        root = put(root, key, value);
     }
 
     private Node put(Node node, Key key, Value value) {
