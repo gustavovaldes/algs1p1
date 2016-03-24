@@ -8,10 +8,6 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     private Node root;
 
-    public BST() {
-
-    }
-
     public void put(Key key, Value value) {
         root = put(root, key, value);
     }
@@ -36,6 +32,57 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (direction > 0) return get(node.right, key);
         else if (direction < 0) return get(node.left, key);
         else return node.value;
+    }
+
+
+    public Key floor(Key key) {
+        Node node = floor(root, key);
+        if (node == null) return null;
+        else return node.key;
+    }
+
+    private Node floor(Node node, Key key) {
+
+        if (node == null) return null;
+
+        int direction = key.compareTo(node.key);
+        if (direction < 0) return floor(node.left, key);
+        else if (direction == 0) return node;
+
+        Node right = floor(node.right, key);
+        if (right != null) return right;
+        else return node;
+
+    }
+
+
+    public Key ceiling(Key key) {
+        Node node = ceiling(root, key);
+        if (node == null) return null;
+        else return node.key;
+    }
+
+    private Node ceiling(Node node, Key key) {
+        if (node == null) return null;
+
+        int direction = key.compareTo(node.key);
+        if (direction > 0) return floor(node.right, key);
+        else if (direction == 0) return node;
+
+        Node left = floor(node.left, key);
+        if (left != null) return left;
+        else return node;
+
+        /*
+        if (node == null) return null;
+        int cmp = key.compareTo(node.key);
+        if (cmp == 0) return node;
+        if (cmp < 0) {
+            Node t = ceiling(node.left, key);
+            if (t != null) return t;
+            else return node;
+        }
+        return ceiling(node.right, key);*/
     }
 
     public int size() {
