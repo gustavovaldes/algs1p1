@@ -59,6 +59,7 @@ public class BSTTest {
         Assert.assertEquals("B", "" + bst.ceiling('B'));
         Assert.assertNull(bst.ceiling('Y'));
         Assert.assertEquals("B", "" + bst.ceiling('A'));
-        Assert.assertNull( bst.ceiling('Z'));
+        Assert.assertEquals("X", "" + bst.ceiling('P'));
+        Assert.assertNull(bst.ceiling('Z'));
     }
 }
