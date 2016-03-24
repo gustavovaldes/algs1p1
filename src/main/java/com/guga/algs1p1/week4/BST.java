@@ -66,12 +66,15 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (node == null) return null;
 
         int direction = key.compareTo(node.key);
-        if (direction > 0) return floor(node.right, key);
+        if (direction > 0) return ceiling(node.right, key);
         else if (direction == 0) return node;
 
-        Node left = floor(node.left, key);
+        Node left = ceiling(node.left, key);
         if (left != null) return left;
         else return node;
+
+
+
 
         /*
         if (node == null) return null;
