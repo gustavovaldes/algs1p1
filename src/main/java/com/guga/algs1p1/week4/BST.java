@@ -16,7 +16,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (node == null) return new Node(key, value, 1);
         int direction = key.compareTo(node.key);
         if (direction > 0) node.right = put(node.right, key, value);
-        else if (direction < 9) node.left = put(node.left, key, value);
+        else if (direction < 0) node.left = put(node.left, key, value);
         else node.value = value;
         node.N = size(node.left) + size(node.right) + 1;
         return node;
@@ -116,6 +116,52 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (node.right == null) return node;
         else return node.right;
     }
+
+    /**
+     * Return the kth smallest key in the symbol table.
+     */
+    public Key select(int k) {
+        return null; //todo implement select
+    }
+
+
+    /**
+     * Return the number of keys in the symbol table strictly less than <tt>key</tt>.
+     */
+    public int rank(Key key) {
+        return 0; //todo implement rank
+    }
+
+
+    public void deleteMin(){
+        //todo implement deleteMin
+    }
+
+    public void deleteMax(){
+        //todo implement deleteMax
+    }
+
+    public void delete(Key key){
+        //todo implement delete
+    }
+
+
+    public Iterable<Key> keys() {
+        return null; // todo implement iterable
+    }
+
+    /**
+     * Returns the height of the BST
+     */
+    public int height() {
+        return 0; // todo implement height
+    }
+
+    public boolean check() {
+        return false; //todo implement bst validation ans consistence
+    }
+
+
 
 
     private class Node {

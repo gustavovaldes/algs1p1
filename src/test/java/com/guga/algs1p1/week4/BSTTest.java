@@ -1,5 +1,6 @@
 package com.guga.algs1p1.week4;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
