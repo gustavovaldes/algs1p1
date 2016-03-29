@@ -1,16 +1,18 @@
 package com.guga.algs1p1.week5;
-/******************************************************************************
- *  Compilation:  javac NearestNeighborVisualizer.java
- *  Execution:    java NearestNeighborVisualizer input.txt
- *  Dependencies: PointSET.java KdTree.java
- *
- *  Read points from a file (specified as a command-line argument) and
- *  draw to standard draw. Highlight the closest point to the mouse.
- *
- *  The nearest neighbor according to the brute-force algorithm is drawn
- *  in red; the nearest neighbor using the kd-tree algorithm is drawn in blue.
- *
- ******************************************************************************/
+/**
+ * ***************************************************************************
+ * Compilation:  javac NearestNeighborVisualizer.java
+ * Execution:    java NearestNeighborVisualizer input.txt
+ * Dependencies: PointSET.java KdTree.java
+ * <p>
+ * Read points from a file (specified as a command-line argument) and
+ * draw to standard draw. Highlight the closest point to the mouse.
+ * <p>
+ * The nearest neighbor according to the brute-force algorithm is drawn
+ * in red; the nearest neighbor using the kd-tree algorithm is drawn in blue.
+ * <p>
+ * ****************************************************************************
+ */
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
@@ -51,12 +53,15 @@ public class NearestNeighborVisualizer {
             // draw in red the nearest neighbor (using brute-force algorithm)
             StdDraw.setPenRadius(.03);
             StdDraw.setPenColor(StdDraw.RED);
-            brute.nearest(query).draw();
+            Point2D p = brute.nearest(query);
+            //if (p != null) p.draw();
             StdDraw.setPenRadius(.02);
 
             // draw in blue the nearest neighbor (using kd-tree algorithm)
             StdDraw.setPenColor(StdDraw.BLUE);
-//            kdtree.nearest(query).draw();
+
+            Point2D p2 = kdtree.nearest(query);
+            if (p2 != null) p2.draw();
             StdDraw.show(0);
             StdDraw.show(40);
         }

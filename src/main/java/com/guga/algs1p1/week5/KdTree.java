@@ -148,11 +148,12 @@ public class KdTree {
     }
 
     public Point2D nearest(Point2D p) { // a nearest neighbor in the set to point p; null if the set is empty
-
-        return null;
+        Node node = nearest(root, p, Double.MAX_VALUE);
+        if (node != null) return nearest(root, p, Double.MAX_VALUE).p;
+        else return null;
     }
 
-    private Node nearest(Node node, Point2D p, double distance){
+    /*private Node nearest(Node node, Point2D p, double distance){
         Node nearest = null;
         if(node==null) return null;
         double tempDistance = 0;//todo go left if point is in x-left side, etc
@@ -167,6 +168,52 @@ public class KdTree {
 
         }
         if(node.rect.distanceSquaredTo(p))
+    }*/
+
+    private Node nearest(Node node, Point2D p, double localDistance) {
+        Node nearest = node;
+        Node secondOption = null;
+        Node thirdOption = null;
+        if (node != null) {
+            double rectDistance = node.rect.distanceSquaredTo(p);
+            if (rectDistance < localDistance) {
+                double pointDistance = node.p.distanceSquaredTo(p);
+                if (pointDistance < localDistance) {
+                    nearest = node;
+                    localDistance = pointDistance;
+                }
+                secondOption = nearest(node.lb, p, localDistance);
+                thirdOption = nearest(node.rt, p, localDistance);
+            } else return node;
+        } else {
+            return node;
+        }
+        double d1 = Double.MAX_VALUE;
+        double d2 = Double.MAX_VALUE;
+        double d3 = Double.MAX_VALUE;
+        if (thirdOption != null) {
+            d3 = thirdOption.p.distanceSquaredTo(p);
+        }
+        if (secondOption != null) {
+            d2 = secondOption.p.distanceSquaredTo(p);
+        }
+        if (nearest != null) {
+            d1 = node.p.distanceSquaredTo(p);
+        } else {
+            return node;
+        }
+
+        if (d1 < d2) {
+            if (d1 < d3) {
+                return secondOption;
+            } else {
+                return thirdOption;
+            }
+        } else if (d2 < d3) {
+            return secondOption;
+        } else {
+            return thirdOption;
+        }
     }
 
     private class Node {
