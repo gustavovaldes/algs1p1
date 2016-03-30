@@ -21,7 +21,7 @@ import edu.princeton.cs.algs4.StdDraw;
 public class NearestNeighborVisualizer {
 
     public static void main(String[] args) {
-        String filename = "/week5/circle10.txt";
+        String filename = "/week5/input100K.txt";
         In in = new In(filename);
 
         StdDraw.show(0);
@@ -54,9 +54,10 @@ public class NearestNeighborVisualizer {
             StdDraw.setPenRadius(.03);
             StdDraw.setPenColor(StdDraw.RED);
             Point2D p = brute.nearest(query);
-            //if (p != null) p.draw();
+            if (p != null) p.draw();
             StdDraw.setPenRadius(.02);
-
+            StdDraw.show(0);
+            StdDraw.show(40);
             // draw in blue the nearest neighbor (using kd-tree algorithm)
             StdDraw.setPenColor(StdDraw.BLUE);
 
